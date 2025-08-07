@@ -1,0 +1,88 @@
+main.jsx
+   │
+   └─> App.jsx (wraps theme + router + query client)
+          │
+          └─> RouterProvider with routes (router/routes.jsx)
+                    │
+                    └─> MainLayout.jsx (Navbar + Footer + Outlet)
+                             │
+                             └─> Pages (HomePage, ProductListPage, etc.)
+                                      │
+                                      ├─> use Zustand stores (src/store/)
+                                      └─> use hooks (src/hooks/) for data fetching
+
+File & Connection Flow
+
+    main.jsx
+
+        Entry point.
+
+        Imports global CSS (index.css).
+
+        Imports App.jsx.
+
+        Calls ReactDOM.createRoot(...).render(<App />).
+
+    App.jsx
+
+        Wraps app with:
+
+            ConfigProvider (Ant Design theme)
+
+            QueryClientProvider (React Query client)
+
+            RouterProvider (React Router with routes)
+
+        RouterProvider uses routes.jsx for routing config.
+
+    router/routes.jsx
+
+        Defines app routes.
+
+        Wraps all page routes with MainLayout.
+
+        Each route loads a page component from pages/.
+
+    layout/MainLayout.jsx
+
+        Defines site-wide layout: Navbar, Footer, and <Outlet />.
+
+        <Outlet /> renders the matched route’s page component.
+
+    components/Navbar.jsx & components/Footer.jsx
+
+        Navbar and Footer components.
+
+        Imported and used inside MainLayout.jsx.
+
+        Navbar links correspond to routes in routes.jsx.
+
+    pages/*
+
+        Actual page components rendered based on route.
+
+        Can use Zustand stores for global state, and hooks for data fetching.
+
+    store/
+
+        Zustand stores hold global states (auth, cart, etc).
+
+        Imported in components/pages as needed.
+
+    hooks/
+
+        Custom hooks like React Query client setup.
+
+        Used for data fetching and state management.
+
+    theme/antdTheme.js
+
+        Ant Design theme tokens config.
+
+        Passed as prop to ConfigProvider in App.jsx.
+
+    index.css
+
+        Tailwind CSS base styles.
+
+        Loaded globally via main.jsx.
